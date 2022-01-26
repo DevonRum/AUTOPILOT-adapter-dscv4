@@ -1,0 +1,1215 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Dynamic Services APIs",
+    "version": "3.0.0",
+    "title": "Dynamic Services API",
+    "contact": {
+      "name": "Development Team",
+      "email": "VSA-Constellation@CenturyLink.com"
+    }
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "UNIS APIs",
+      "description": ""
+    },
+    {
+      "name": "PARTNERINTERCONNECTS APIs",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/Network/v4/DynamicConnection/unis": {
+      "get": {
+        "tags": [
+          "UNIS APIs"
+        ],
+        "summary": "",
+        "operationId": "getUNISUsingGETV4",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-billing-account-number",
+            "in": "header",
+            "description": "customer account number (Kenan BAN)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "default is 0",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "default is 1500",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "you can specify comma separated list of status. valid values are active,inactive,pending,ineligible.\n\nIf none specified default response includes only active unis",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "serviceAddress",
+            "in": "query",
+            "description": "physical address of an UNI",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UnisV4Response"
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/definitions/400APIErrorResponse"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "$ref": "#/definitions/500APIErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/Network/v4/DynamicConnection/unis/{id}": {
+      "get": {
+        "tags": [
+          "UNIS APIs"
+        ],
+        "summary": "",
+        "operationId": "getUNIUsingGETV4",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-billing-account-number",
+            "in": "header",
+            "description": "customer account number (Kenan BAN)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the uni",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cos",
+            "in": "query",
+            "description": "cos . Accepted values are basic, enhanced, dedicated",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UniV4"
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/definitions/400APIErrorResponse"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "$ref": "#/definitions/500APIErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/Network/v4/DynamicConnection/partnerInterconnects": {
+      "get": {
+        "tags": [
+          "PARTNERINTERCONNECTS APIs"
+        ],
+        "summary": "",
+        "operationId": "V4getPartnerInterconnectsUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "default is 0",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "default is 1500",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "description": "represents a cloud provider region e.g for aws-hosted-connection and aws-hosted-vif 'us-west-2', for azure and azure-gov 'New York' , for google-interconnect 'us-east1', for ibm-directlink-connection 'London 3' , for oracle-virtual-circuit 'us-phoenix-1'', for oracle-gov-virtual-circuit 'us-langley-1' ",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "provider",
+            "in": "query",
+            "description": "you can specify comma separated list of provider. valid values are aws-hosted-connection, aws-hosted-vif, azure, azure-gov, google-interconnect, ibm-directlink-connection, oracle-virtual-circuit, oracle-gov-virtual-circuit",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/V4PartnerInterconnectResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "schema": {
+              "$ref": "#/definitions/400APIErrorResponse"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "$ref": "#/definitions/500APIErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NNILocationResponse": {
+      "type": "object",
+      "properties": {
+        "nniLocationResource": {
+          "$ref": "#/definitions/NniLocation"
+        }
+      }
+    },
+    "UniResourceResponse": {
+      "type": "object",
+      "properties": {
+        "uniResource": {
+          "type": "object",
+          "properties": {
+            "billingAccountNumber": {
+              "type": "integer"
+            },
+            "uniServiceId": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "uniType": {
+              "type": "string"
+            },
+            "capacity": {
+              "$ref": "#/definitions/Capacity"
+            },
+            "ceVlan": {
+              "$ref": "#/definitions/CeVlan"
+            }
+          }
+        }
+      }
+    },
+    "UnisResponse": {
+      "type": "object",
+      "properties": {
+        "unis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Uni"
+          }
+        },
+        "firstPage": {
+          "type": "boolean"
+        },
+        "lastPage": {
+          "type": "boolean"
+        },
+        "pageIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UnisV4Response": {
+      "type": "object",
+      "properties": {
+        "unis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnisV4"
+          }
+        },
+        "firstPage": {
+          "type": "boolean"
+        },
+        "lastPage": {
+          "type": "boolean"
+        },
+        "pageIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PartnerInterconnectResponse": {
+      "type": "object",
+      "properties": {
+        "partnerInterconnects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartnerInterconnect"
+          }
+        },
+        "firstPage": {
+          "type": "boolean"
+        },
+        "lastPage": {
+          "type": "boolean"
+        },
+        "pageIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "V4PartnerInterconnectResponse": {
+      "type": "object",
+      "properties": {
+        "partnerInterconnects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/V4PartnerInterconnect"
+          }
+        },
+        "firstPage": {
+          "type": "boolean"
+        },
+        "lastPage": {
+          "type": "boolean"
+        },
+        "pageIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PartnerInterconnectResponse"
+    },
+    "NniLocation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "NNI Location ID",
+          "example": "HC - US East (N. Virginia) - Ashburn-1"
+        },
+        "maxAvailableBandwidth": {
+          "description": "Bandwidth in Mbps",
+          "type": "integer",
+          "format": "int64",
+          "example": 100
+        },
+        "nnis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "uniServiceId": {
+                "type": "string",
+                "example": "AC/KFFN/000000/LVLC"
+              },
+              "maxAvailableBandwidth": {
+                "description": "Bandwidth in Mbps",
+                "type": "integer",
+                "format": "int64",
+                "example": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "PartnerInterconnect": {
+      "type": "object",
+      "properties": {
+        "uniServiceId": {
+          "type": "string",
+          "example": "AC/KFFN/000000/LVLC"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/User"
+        },
+        "customer": {
+          "type": "object",
+          "$ref": "#/definitions/Customer"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/Location"
+        },
+        "partnerInterconnectProfile": {
+          "type": "object",
+          "$ref": "#/definitions/PartnerInterconnectProfile"
+        }
+      }
+    },
+    "V4PartnerInterconnect": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "example": "aws-hosted-connection"
+        },
+        "region": {
+          "type": "string",
+          "example": "us-west-2'"
+        }
+      },
+      "title": "PartnerInterconnect"
+    },
+    "Uni": {
+      "type": "object",
+      "properties": {
+        "uniServiceId": {
+          "type": "string",
+          "example": "AC/KFFN/000000/LVLC"
+        },
+        "uniStatus": {
+          "type": "string",
+          "example": "active"
+        },
+        "createDt": {
+          "type": "string",
+          "example": "2018-01-01T07:00:00.000-07:00"
+        },
+        "modifyDt": {
+          "type": "string",
+          "example": "2018-01-01T07:00:00.000-07:00"
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/User"
+        },
+        "customer": {
+          "type": "object",
+          "$ref": "#/definitions/Customer"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/Location"
+        }
+      }
+    },
+    "UnisV4": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "ac_000000_lvlc"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/V4Location"
+        }
+      },
+      "title": "Unis"
+    },
+    "UniV4": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "ac_000000_lvlc"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/V4Location"
+        },
+        "capacity": {
+          "$ref": "#/definitions/CapacityUniV4"
+        },
+        "ceVlan": {
+          "$ref": "#/definitions/CeVlan"
+        }
+      }
+    },
+    "AddWhiteListUniRequest": {
+      "type": "object",
+      "properties": {
+        "billingAccountNumber": {
+          "type": "integer"
+        },
+        "uniServiceId": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        }
+      },
+      "title": "AddWhiteListUniRequest"
+    },
+    "AddWhiteListUniResponse": {
+      "type": "object",
+      "properties": {
+        "uni": {
+          "$ref": "#/definitions/WhiteListUni"
+        }
+      },
+      "title": "AddWhiteListUniResponse"
+    },
+    "UpdateWhiteListUniRequest": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateWhiteListUniRequest"
+    },
+    "UpdateWhiteListUniResponse": {
+      "type": "object",
+      "properties": {
+        "uni": {
+          "$ref": "#/definitions/WhiteListUni"
+        }
+      },
+      "title": "UpdateWhiteListUniResponse"
+    },
+    "PatchWhiteListUniRequest": {
+      "type": "object",
+      "properties": {
+        "billingAccountNumber": {
+          "type": "number"
+        },
+        "details": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateWhiteListUniRequest"
+    },
+    "PatchWhiteListUniResponse": {
+      "type": "object",
+      "properties": {
+        "uni": {
+          "$ref": "#/definitions/WhiteListUniPatch"
+        }
+      },
+      "title": "PatchWhiteListUniResponse"
+    },
+    "WhiteListUniPatch": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "billingAccountNumber": {
+          "type": "integer"
+        },
+        "uniType": {
+          "type": "string"
+        },
+        "uniServiceId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "createDt": {
+          "type": "string"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/Location"
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Update"
+          }
+        }
+      },
+      "title": "WhiteListUni"
+    },
+    "WhiteListUni": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "billingAccountNumber": {
+          "type": "integer"
+        },
+        "uniType": {
+          "type": "string"
+        },
+        "uniServiceId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "createDt": {
+          "type": "string"
+        },
+        "modifyDt": {
+          "type": "string"
+        }
+      },
+      "title": "WhiteListUni"
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "locationId": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "serviceAddress": {
+          "type": "string"
+        }
+      },
+      "title": "Location"
+    },
+    "V4Location": {
+      "type": "object",
+      "properties": {
+        "serviceAddress": {
+          "type": "string"
+        }
+      },
+      "title": "Location"
+    },
+    "Update": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "type": "string"
+        },
+        "modifyDate": {
+          "type": "string"
+        }
+      },
+      "title": "Location"
+    },
+    "AddWhiteListElynkRequest": {
+      "type": "object",
+      "properties": {
+        "billingAccountNumber": {
+          "type": "integer"
+        },
+        "uniServiceId": {
+          "type": "string"
+        },
+        "awsConnectionId": {
+          "type": "string"
+        },
+        "regionId": {
+          "type": "string"
+        },
+        "interConnectId": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "peeringLocation": {
+          "type": "string"
+        },
+        "azurePort": {
+          "type": "string"
+        },
+        "maxEvcBandWidth": {
+          "type": "number"
+        },
+        "supportedProviders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+
+      },
+      "title": "AddWhiteListElynkRequest"
+    },
+    "AddWhiteListElynkResponse": {
+      "type": "object",
+      "properties": {
+        "elynk": {
+          "$ref": "#/definitions/WhiteListElynk"
+        }
+      },
+      "title": "AddWhiteListElynkResponse"
+    },
+    "WhiteListElynkResponse": {
+      "type": "object",
+      "properties": {
+        "elynk": {
+          "$ref": "#/definitions/WhiteListElynk"
+        }
+      },
+      "title": "WhiteListElynkResponse"
+    },
+    "UpdateWhiteListElynkRequest": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "awsConnectionId": {
+          "type": "string"
+        },
+        "regionId": {
+          "type": "string"
+        },
+        "peeringLocation": {
+          "type": "string"
+        },
+        "interConnectId": {
+          "type": "string"
+        },
+        "maxEvcBandWidth": {
+          "type": "number"
+        }
+      },
+      "title": "UpdateWhiteListElynkRequest"
+    },
+    "PatchWhiteListElynkRequest": {
+      "type": "object",
+      "properties": {
+        "billingAccountNumber": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "interConnectId": {
+          "type": "string"
+        },
+        "maxEvcBandWidth": {
+          "type": "number"
+        },
+        "provider": {
+          "type": "string"
+        }
+      },
+      "title": "PatchWhiteListElynkRequest"
+    },
+    "UpdateWhiteListElynkResponse": {
+      "type": "object",
+      "properties": {
+        "elynk": {
+          "$ref": "#/definitions/WhiteListElynk"
+        }
+      },
+      "title": "UpdateWhiteListElynkResponse"
+    },
+    "PatchWhiteListElynkResponse": {
+      "type": "object",
+      "properties": {
+        "elynk": {
+          "$ref": "#/definitions/PatchWhiteListElynk"
+        }
+      },
+      "title": "PatchWhiteListElynkResponse"
+    },
+    "PatchWhiteListElynk": {
+      "type": "object",
+      "properties": {
+        "uniServiceId": {
+          "type": "string",
+          "example": "AC/KFFN/000000/LVLC"
+        },
+        "id": {
+          "type": "string"
+        },
+        "cloudProfile": {
+          "type": "object",
+          "$ref": "#/definitions/CloudProfile"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
+        },
+        "createDt": {
+          "type": "string",
+          "example": "2018-01-01T07:00:00.000-07:00"
+        },
+        "billingAccountNumber": {
+          "type": "number"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "location": {
+          "type": "object",
+          "$ref": "#/definitions/Location"
+        },
+        "updates": {
+          "type": "object",
+          "$ref": "#/definitions/Updates"
+        }
+      },
+      "title": "PatchWhiteListElynk"
+    },
+    "Updates": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "string"
+          },
+          "modifyDt": {
+            "type": "string",
+            "example": "2018-01-01T07:00:00.000-07:00"
+          }
+        },
+      "title": "Updates"
+    },"CloudProfile": {
+      "type": "object",
+      "properties": {
+        "interConnectId": {
+          "type": "string"
+        },
+        "maxEvcBandwidth": {
+          "type": "string"
+          },
+        "name": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "supportedProviders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "CloudProfile"
+    },
+    "WhiteListElynk": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "billingAccountNumber": {
+            "type": "integer"
+          },
+          "uniServiceId": {
+            "type": "string"
+          },
+          "awsConnectionId": {
+            "type": "string"
+          },
+          "regionId": {
+            "type": "string"
+          },
+          "interConnectId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "emailId": {
+            "type": "string"
+          },
+          "createDt": {
+            "type": "string"
+          },
+          "modifyDt": {
+            "type": "string"
+          },
+          "azurePort": {
+            "type": "string"
+          },
+          "peeringLocation": {
+            "type": "string"
+          },
+          "maxEvcBandWidth": {
+            "type": "number"
+          },
+          "supportedProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "title": "WhiteListElynk"
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "billingAccountNumber": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "title": "Customer"
+      },
+      "PartnerInterconnectProfile": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "locationSequence": {
+            "type": "integer"
+          },
+          "interConnectId": {
+            "type": "string"
+          },
+          "maxEvcBandWidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "supportedProviders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "title": "PartnerInterconnectProfile"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "emailId": {
+            "type": "string"
+          }
+        },
+        "title": "Customer"
+      },
+      "Capacity": {
+        "type": "object",
+        "properties": {
+          "maxAvailableBandwidth": {
+            "type": "integer"
+          },
+          "accessBandwidth": {
+            "type": "integer"
+          }
+        }
+      },
+    "CapacityUniV4": {
+      "type": "object",
+      "properties": {
+        "cos": {
+          "type": "string"
+        },
+        "maxAvailableBandwidth": {
+          "type": "integer"
+        }
+      },
+      "title": "CapacityUni"
+    },
+    "UniCapacity": {
+      "type": "object",
+      "properties": {
+        "uniServiceId": {
+          "type": "string"
+        },
+        "cos": {
+          "type": "string",
+          "example": "basic"
+        },
+        "maxAvailableBandwidth": {
+          "type": "integer"
+        }
+      }
+    },
+      "CeVlan": {
+        "type": "object",
+        "properties": {
+          "ceVlansInUse": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ceVlansAvailable": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+    "UniCeVlan": {
+      "type": "object",
+      "properties": {
+        "uniServiceId": {
+          "type": "string"
+        },
+        "ceVlansInUse": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ceVlansAvailable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "type" : "object",
+              "properties": {
+                "href": {
+                  "type": "string",
+                  "example": "unis/AC%2FKFFN%2F000000%2FLVLC/ce-vlans"
+                }
+              }
+            },
+            "parent": {
+              "type" : "object",
+              "properties": {
+                "href": {
+                  "type": "string",
+                  "example": "unis/AC%2FKFFN%2F000000%2FLVLC"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+      "400APIErrorResponse": {
+        "type": "object",
+        "properties": {
+          "exception": {
+            "type": "object",
+            "properties": {
+              "httpStatusCode": {
+                "type": "string",
+                "example": "400"
+              },
+              "code": {
+                "type": "string",
+                "example": "400002"
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid query string"
+              },
+              "detail": {
+                "type": "string",
+                "example": "Invalid query string"
+              }
+            }
+          }
+        }
+      },
+      "404APIErrorResponse": {
+        "type": "object",
+        "properties": {
+          "exception": {
+            "type": "object",
+            "properties": {
+              "httpStatusCode": {
+                "type": "string",
+                "example": "404"
+              },
+              "code": {
+                "type": "string",
+                "example": "404001"
+              },
+              "message": {
+                "type": "string",
+                "example": "Requested resource not found"
+              },
+              "detail": {
+                "type": "string",
+                "example": "Requested resource not found"
+              }
+            }
+          }
+        }
+      },
+      "500APIErrorResponse": {
+        "type": "object",
+        "properties": {
+          "exception": {
+            "type": "object",
+            "properties": {
+              "httpStatusCode": {
+                "type": "string",
+                "example": "500"
+              },
+              "code": {
+                "type": "string",
+                "example": "500001"
+              },
+              "message": {
+                "type": "string",
+                "example": "Internal Server Error"
+              },
+              "detail": {
+                "type": "string",
+                "example": "Internal Server Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }

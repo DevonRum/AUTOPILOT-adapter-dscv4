@@ -1,0 +1,36 @@
+{
+  "table": [
+    {
+      "num_called": 63,
+      "numRetries": 0,
+      "numRedirects": 0,
+      "throttleCount": 0,
+      "timeouts": 0,
+      "tot_queue_time": 0,
+      "tot_rnd_trip": 83858,
+      "tot_library": 1125976,
+      "tot_overall": 0,
+      "results.-1": 63,
+      "time_units": "ms",
+      "entity": ".system",
+      "action": "healthcheck",
+      "isThrottling": false
+    },
+    {
+      "num_called": 11,
+      "numRetries": 0,
+      "numRedirects": 0,
+      "throttleCount": 0,
+      "timeouts": 0,
+      "tot_queue_time": 0,
+      "tot_rnd_trip": 432,
+      "tot_library": 770,
+      "tot_overall": 0,
+      "results.-1": 11,
+      "time_units": "ms",
+      "entity": "PARTNERINTERCONNECTSAPIs",
+      "action": "v4getPartnerInterconnectsUsingGET",
+      "isThrottling": false
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "actions": [
+    {
+      "name": "getUNISUsingGETV4",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/Network/v4/DynamicConnection/unis?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "getUNIUsingGETV4",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/Network/v4/DynamicConnection/unis/{pathv1}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    }
+  ]
+}
